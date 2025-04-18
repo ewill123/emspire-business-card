@@ -61,6 +61,39 @@
         margin: 0;
       }
 
+      /* Loader Overlay */
+      #loader-overlay {
+        position: fixed;
+        z-index: 9999;
+        background: linear-gradient(135deg, #031716, #032f30, #0a7075);
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.8s ease, visibility 0.8s ease;
+      }
+
+      .loader-spinner {
+        width: 80px;
+        height: 80px;
+        border: 8px solid rgba(255, 255, 255, 0.1);
+        border-top-color: #0c969c;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      #loader-overlay.fade-out {
+        opacity: 0;
+        visibility: hidden;
+      }
+
       .animated-bg {
         position: fixed;
         top: 0;
@@ -205,17 +238,12 @@
       }
     </style>
   </head>
-  <a
-    href="https://api.whatsapp.com/send?phone=231777567849&text=Hi%20Emspire!%20I'm%20interested%20in%20your%20services."
-    target="_blank"
-    rel="noopener noreferrer"
-    class="fixed bottom-6 right-6 bg-[#0C969C] hover:bg-[#0A7075] text-white rounded-full shadow-lg p-4 transition-transform duration-300 transform hover:scale-110 z-50 animate-attention"
-    title="Chat with us on WhatsApp"
-  >
-    <i class="fab fa-whatsapp text-2xl"></i>
-  </a>
-
   <body class="flex justify-center items-center min-h-screen p-6 relative">
+    <!-- Loading Screen -->
+    <div id="loader-overlay">
+      <div class="loader-spinner"></div>
+    </div>
+
     <div class="animated-bg"></div>
 
     <div class="glass-card">
@@ -238,7 +266,7 @@
 
       <div class="space-y-4">
         <a
-          href="https://companywebsite.com"
+          href="https://emspire-website.vercel.app"
           target="_blank"
           rel="noopener noreferrer"
           class="flex justify-center items-center space-x-2 icon-hover website"
@@ -289,7 +317,7 @@
         <p class="footer-text">
           🔹 Need a business card like this?
           <a
-            href="https://yourbusinesslink.com"
+            href="https://emspire-website.vercel.app"
             target="_blank"
             rel="noopener noreferrer"
             >Contact Emspire</a
@@ -299,21 +327,20 @@
       </div>
     </div>
 
-    <!-- QR Code Generator -->
-    <script
-      src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"
-      defer
-    ></script>
     <script>
       window.onload = function () {
-        // Generate QR code
+        // Remove loader after slight delay
+        const loader = document.getElementById("loader-overlay");
+        setTimeout(() => loader.classList.add("fade-out"), 500);
+
+        // QR Code Generator
         new QRCode(document.getElementById("qrcode"), {
           text: "https://ewill123.github.io/emspire-business-card/",
           width: 120,
           height: 120,
         });
 
-        // Mouse interaction for animated background
+        // Animated background
         document.addEventListener("mousemove", (e) => {
           document
             .querySelector(".animated-bg")
@@ -323,7 +350,7 @@
             .style.setProperty("--y", `${e.clientY}px`);
         });
 
-        // Wave hover animation on icons
+        // Wave animation on icons
         const icons = document.querySelectorAll(".icon-hover");
         function triggerWaveAnimation() {
           icons.forEach((icon, index) => {
